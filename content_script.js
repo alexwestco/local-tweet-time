@@ -46,16 +46,16 @@ function get_details(tweet, username, utc_timestamp){
             // So, now we have
 
             // Tweet
-            console.log(tweet)
+            //console.log(tweet)
 
             // Username
-            console.log(username)
+            //console.log(username)
 
             // UTC time stamp
-            console.log(utc_timestamp)
+            //console.log(utc_timestamp)
 
             // Location String
-            console.log(location_string.trim())
+            //console.log(location_string.trim())
 
             // Hand it over to the other method to finish the job
             add_local_time_to_tweets(tweet, username, utc_timestamp, location_string)
@@ -85,14 +85,50 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
         for(i=0; i<countries.length; i++) {
             if (location_string.includes(countries[i][0])) {
 
-                console.log(username + ' is in country ' + countries[i][0])
+                //console.log(username + ' is in country ' + countries[i][0])
 
+                // Convert to local time. We have the tweet's UTC time here
+                //console.log(utc_timestamp)
+
+                date = new Date(utc_timestamp)
+                now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                timestamp = new Date(now_utc);
+
+                sign = countries[i][1][3]
+                hours = countries[i][1][4] + '' + countries[i][1][5]
+                minutes = countries[i][1][7] + '' + countries[i][1][8]
+                //console.log(sign)
+                //console.log(hours)
+                //console.log(minutes)
+
+                if(sign == '+'){
+                    timestamp.setUTCHours(timestamp.getUTCHours() + parseInt(hours));
+                    timestamp.setUTCMinutes(timestamp.getUTCMinutes() + parseInt(minutes));
+                }else if(sign == '-'){
+                    // BEWARE!!! This (−) is not the minus sign (-)
+                    timestamp.setUTCHours(timestamp.getUTCHours() - parseInt(hours));
+                    timestamp.setUTCMinutes(timestamp.getUTCMinutes() - parseInt(minutes));
+                }
+                
                 // Add local time to tweet
                 p = document.createElement('span')
-                p.innerText = ' (' + countries[i][0] + ')'
+                hours_str = ''
+                minutes_str = ''
+                if(timestamp.getUTCHours() < 10){
+                    hours_str = '0'+ timestamp.getUTCHours()
+                }else{
+                    hours_str = timestamp.getUTCHours()
+                }
+                if(timestamp.getUTCMinutes() < 10){
+                    minutes_str = '0' + timestamp.getUTCMinutes()
+                }else{
+                    minutes_str = timestamp.getUTCMinutes()
+                }
+                p.innerText =  ' - ' + hours_str + ':' + minutes_str + ' local time'
                 p.style.color = '#8899a6'
                 p.style.fontWeight = 400
-                p.style.fontSize = '15px'
+                p.style.fontSize = '14px'
+                p.style.fontFamily = 'Helvetica Neue'
 
                 tweet.firstChild.appendChild(p)
 
@@ -103,7 +139,7 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
 
         }
         if(flag == false){
-            console.log(username + ' is in no country :(')
+            //console.log(username + ' is in no country :(')
 
             // Add local time to tweet
             p = document.createElement('span')
@@ -112,7 +148,7 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
             p.style.fontWeight = 400
             p.style.fontSize = '15px'
 
-            tweet.firstChild.appendChild(p)
+            //tweet.firstChild.appendChild(p)
 
         }
 
