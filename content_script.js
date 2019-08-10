@@ -1,6 +1,5 @@
 var tweetsHTML = document.getElementsByClassName('css-1dbjc4n r-18u37iz r-1wtj0ep r-zl2h9q')
 setInterval(scan_tweets, 5000);
-//setTimeout(scan_tweets, 5000);
 
 function scan_tweets(){
     //console.log(tweetsHTML)
@@ -30,7 +29,7 @@ function scan_tweets(){
 
         } catch (error){
             //console.log("e: "+error);
-        }   
+        } 
     }
 }
 
@@ -81,7 +80,6 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
         
         //console.log(countries)
 
-        var flag = false
         for(i=0; i<countries.length; i++) {
             if (location_string.includes(countries[i][0])) {
 
@@ -124,34 +122,19 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
                 }else{
                     minutes_str = timestamp.getUTCMinutes()
                 }
-                p.innerText =  ' - ' + hours_str + ':' + minutes_str + ' local time'
+                p.innerText =  '· ' + hours_str + ':' + minutes_str + ' local time'
                 p.style.color = '#8899a6'
                 p.style.fontWeight = 400
                 p.style.fontSize = '14px'
+                p.style.marginLeft = '5px'
                 p.style.fontFamily = 'Helvetica Neue'
 
                 tweet.firstChild.appendChild(p)
 
-
-                flag = true
                 break;
             }
 
         }
-        if(flag == false){
-            //console.log(username + ' is in no country :(')
-
-            // Add local time to tweet
-            p = document.createElement('span')
-            p.innerText = ' (No country)'
-            p.style.color = '#8899a6'
-            p.style.fontWeight = 400
-            p.style.fontSize = '15px'
-
-            //tweet.firstChild.appendChild(p)
-
-        }
-
 
     });
 
