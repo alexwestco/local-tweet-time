@@ -1,5 +1,6 @@
 chrome.runtime.onInstalled.addListener(function(details){
     if(details.reason == "install"){
+
         // create array of counties
         country_list = [
         ["Afghanistan", "UTC+04:30"],
@@ -33,10 +34,10 @@ chrome.runtime.onInstalled.addListener(function(details){
 		["Cambodia", "UTC+07:00"],
 		["Cameroon", "UTC+01:00"],
 
-		["Canada" , "UTC+"],
-		["Toronto", ""],
-		["Vancouver", ""],
-		["Montreal", ""],
+		["Canada" , "UTC-04:00"],
+		["Toronto", "UTC-04:00"],
+		["Vancouver", "UTC-07:00"],
+		["Montreal", "UTC-04:00"],
 
 		["Cape Verde", "UTC−01:00"],
 		["Chad", "UTC+01:00"],
@@ -359,7 +360,8 @@ chrome.runtime.onInstalled.addListener(function(details){
 		["Vietnam", "UTC+07:00"],
 		["Yemen", "UTC+03:00"],
 		["Zambia", "UTC+02:00"],
-		["Zimbabwe", "UTC+02:00"];
+		["Zimbabwe", "UTC+02:00"]
+		];
 
 		chrome.storage.sync.set({ countries: country_list });
 

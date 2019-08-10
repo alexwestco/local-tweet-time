@@ -3,14 +3,14 @@ setInterval(scan_tweets, 5000);
 //setTimeout(scan_tweets, 5000);
 
 function scan_tweets(){
-    console.log(tweetsHTML)
+    //console.log(tweetsHTML)
     var tweets = Array.prototype.slice.call(tweetsHTML)
 
     for(tweet of tweets){
         try {
 
             // The tweet object
-            console.log(tweet)
+            //console.log(tweet)
 
             // Author's username
             user_profile_url = tweet.firstChild.firstChild.firstChild.href
@@ -24,7 +24,7 @@ function scan_tweets(){
                 continue;
             }
 
-            get_location(tweet, username, utc_timestamp)
+            get_details(tweet, username, utc_timestamp)
 
             tweet.setAttribute('local_tweet_time', 'checked')
 
@@ -34,7 +34,7 @@ function scan_tweets(){
     }
 }
 
-function get_location(tweet, username, utc_timestamp){
+function get_details(tweet, username, utc_timestamp){
     // Get the user's location
     $.ajax({
         url : '/'+username,
@@ -83,13 +83,13 @@ function add_local_time_to_tweets(tweet, username, utc_timestamp, location_strin
 
         var flag = false
         for(i=0; i<countries.length; i++) {
+            if (location_string.includes(countries[i][0])) {
 
-            if (location_string.indexOf(countries[i]) > -1) {
-                console.log(username + ' is in country ' + countries[i])
+                console.log(username + ' is in country ' + countries[i][0])
 
                 // Add local time to tweet
                 p = document.createElement('span')
-                p.innerText = ' ' +countries[i]
+                p.innerText = ' (' + countries[i][0] + ')'
                 p.style.color = '#8899a6'
                 p.style.fontWeight = 400
                 p.style.fontSize = '15px'
